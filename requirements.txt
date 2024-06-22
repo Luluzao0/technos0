@@ -1,4 +1,6 @@
 streamlit
 firebase
 firebase_admin
-pandas 
+pandas
+dotenv
+openpyxl

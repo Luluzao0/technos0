@@ -10,7 +10,8 @@ import os
 load_dotenv()
 
 # Obtém o caminho para o arquivo de credenciais do Firebase
-firebase_credentials = os.getenv("FIREBASE_CREDENTIALS")
+firebase_credentials_path = os.getenv("FIREBASE_CREDENTIALS_PATH")
+
 
 # Função para validar o formato do email
 def is_valid_email(email):
@@ -42,7 +43,7 @@ def delete_user(user_id, ref):
 
 # Inicialize o SDK Firebase apenas uma vez
 if not firebase_admin._apps:
-    cred = credentials.Certificate(firebase_credentials)
+    cred = credentials.Certificate(firebase_credentials_path)
     firebase_admin.initialize_app(cred)
 
 # Referência para a coleção "users" no Firestore

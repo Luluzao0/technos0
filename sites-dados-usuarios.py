@@ -10,7 +10,7 @@ import os
 load_dotenv()
 
 # Obtém o caminho para o arquivo de credenciais do Firebase
-firebase_credentials_path = os.getenv("FIREBASE_CREDENTIALS_PATH")
+firebase_credentials_path = os.getenv("FIREBASE_CREDENTIALS")
 
 # Depuração: Exibir o caminho das credenciais
 st.write(f"Firebase credentials path: {firebase_credentials_path}")

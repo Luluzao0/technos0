@@ -2,5 +2,5 @@ streamlit
 firebase
 firebase_admin
 pandas
-dotenv
+python-dotenv
 openpyxl

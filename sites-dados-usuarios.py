@@ -12,6 +12,8 @@ load_dotenv()
 # Obtém o caminho para o arquivo de credenciais do Firebase
 firebase_credentials_path = os.getenv("FIREBASE_CREDENTIALS_PATH")
 
+# Depuração: Exibir o caminho das credenciais
+st.write(f"Firebase credentials path: {firebase_credentials_path}")
 
 # Função para validar o formato do email
 def is_valid_email(email):
@@ -43,8 +45,15 @@ def delete_user(user_id, ref):
 
 # Inicialize o SDK Firebase apenas uma vez
 if not firebase_admin._apps:
-    cred = credentials.Certificate(firebase_credentials_path)
-    firebase_admin.initialize_app(cred)
+    if firebase_credentials_path and os.path.exists(firebase_credentials_path):
+        try:
+            cred = credentials.Certificate(firebase_credentials_path)
+            firebase_admin.initialize_app(cred)
+            st.write("Firebase initialized successfully.")
+        except Exception as e:
+            st.error(f"Failed to initialize Firebase: {e}")
+    else:
+        st.error("Firebase credentials file not found. Please check the FIREBASE_CREDENTIALS_PATH environment variable.")
 
 # Referência para a coleção "users" no Firestore
 db = firestore.client()

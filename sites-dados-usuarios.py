@@ -117,7 +117,7 @@ else:
             data = get_all_data(ref)
             for doc in data:
                 st.write(f' Nome: {doc.to_dict()["name"]}, Email: {doc.to_dict()["email"]}, Numero: {doc.to_dict()["number"]}, Problema: {doc.to_dict()["problema"]}, Cod. Matricula: {doc.to_dict()["cod_matricula"]}')
-                if st.button(f'Deletar ', key=doc.id):
+                if st.button(f'Deletar', key=doc.id):
                     delete_user(doc.id, ref)
                     st.success(f'Usuário deletado')
         except Exception as e:

@@ -1,0 +1,15 @@
+{
+    "builds": [
+      {
+        "src": "sites-dados-usuarios.py",
+        "use": "@vercel/python"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "sites-dados-usuarios.py"
+      }
+    ]
+  }
+  

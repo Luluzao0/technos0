@@ -34,13 +34,13 @@ def is_phone_number_exists(number, ref):
     return len(user_data) > 0
 
 # Função para adicionar dados do usuário ao Firebase
-def add_userdata(name, email, number, problema, cod_matricula, ref):
+def add_userdata(name, email, number, problema, cursosetor, ref):
     ref.add({
         'name': name,
         'email': email,
         'number': number,
         'problema': problema,
-        'cod_matricula': cod_matricula
+        'curso/setor': cursosetor
     })
 
 # Função para obter todos os dados do Firebase
@@ -119,11 +119,11 @@ else:
     email = st.text_input('Email')
     number = st.text_input('Numero')
     problema = st.text_input('Problema')
-    cod_matricula = st.text_input('Cod. Matricula')
+    curso_setor = st.text_input('curso/setor')
 
     # Verifica se todos os campos estão preenchidos e se o email é válido
     if st.button('Enviar dados'):
-        if not name or not email or not number or not problema or not cod_matricula:
+        if not name or not email or not number or not problema or not curso_setor:
             st.error("Preencha todos os campos")
         elif not is_valid_email(email):
             st.error("Por favor, insira um endereço de e-mail válido.")
@@ -131,7 +131,7 @@ else:
             st.error("O número de telefone já existe.")
         else:
             try:
-                add_userdata(name, email, number, problema, cod_matricula, ref)
+                add_userdata(name, email, number, problema, curso_setor, ref)
                 st.success("Registro concluído")
             except Exception as e:
                 st.error(f"Ocorreu um erro: {str(e)}")
@@ -141,7 +141,7 @@ else:
         try:
             data = get_all_data(ref)
             for doc in data:
-                st.write(f' Nome: {doc.to_dict()["name"]}, Email: {doc.to_dict()["email"]}, Numero: {doc.to_dict()["number"]}, Problema: {doc.to_dict()["problema"]}, Cod. Matricula: {doc.to_dict()["cod_matricula"]}')
+                st.write(f' Nome: {doc.to_dict()["name"]}, Email: {doc.to_dict()["email"]}, Numero: {doc.to_dict()["number"]}, Problema: {doc.to_dict()["problema"]}, Curso/Setor: {doc.to_dict()["curso/setor"]}')
                 if st.button(f'Deletar', key=doc.id):
                     delete_user(doc.id, ref)
                     st.success(f'Usuário deletado')

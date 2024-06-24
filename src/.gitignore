@@ -1,1 +1,4 @@
 banco-de-dados-technos-firebase-adminsdk-tpj1r-a3a1d3e4be.json
+.env
+__pycache__/
+*.py[cod]

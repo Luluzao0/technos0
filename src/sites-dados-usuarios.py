@@ -5,6 +5,7 @@ import re
 import pandas as pd
 from dotenv import load_dotenv
 import os
+from io import BytesIO
 
 # Carrega as variáveis do arquivo .env
 load_dotenv()
@@ -154,10 +155,12 @@ else:
             data = get_all_data(ref)
             data_list = [doc.to_dict() for doc in data]
             df = pd.DataFrame(data_list)
-            excel = df.to_excel(index=False, engine='openpyxl')
+            buffer = BytesIO()
+            df.to_excel(buffer, index=False, engine='openpyxl')
+            buffer.seek(0)
             st.download_button(
                 label="Download Excel",
-                data=excel,
+                data=buffer,
                 file_name="dados_usuarios_technos.xlsx",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )

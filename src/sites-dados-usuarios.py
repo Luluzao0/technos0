@@ -9,11 +9,19 @@ import os
 # Carrega as variáveis do arquivo .env
 load_dotenv()
 
-# Obtém o caminho para o arquivo de credenciais do Firebase
-firebase_credentials_path = os.getenv("FIREBASE_CREDENTIALS")
+# Obtém as variáveis de ambiente do Firebase
+firebase_type = os.getenv("FIREBASE_TYPE")
+firebase_project_id = os.getenv("FIREBASE_PROJECT_ID")
+firebase_private_key_id = os.getenv("FIREBASE_PRIVATE_KEY_ID")
+firebase_private_key = os.getenv("FIREBASE_PRIVATE_KEY", "").replace("\\n", "\n").strip()
+firebase_client_email = os.getenv("FIREBASE_CLIENT_EMAIL")
+firebase_client_id = os.getenv("FIREBASE_CLIENT_ID")
+firebase_auth_uri = os.getenv("FIREBASE_AUTH_URI")
+firebase_token_uri = os.getenv("FIREBASE_TOKEN_URI")
+firebase_auth_provider_x509_cert_url = os.getenv("FIREBASE_AUTH_PROVIDER_X509_CERT_URL")
+firebase_client_x509_cert_url = os.getenv("FIREBASE_CLIENT_X509_CERT_URL")
 
-# Depuração: Exibir o caminho das credenciais
-st.write(f"Firebase credentials path: {firebase_credentials_path}")
+# Depuração: Exibir as credenciais
 
 # Função para validar o formato do email
 def is_valid_email(email):
@@ -45,15 +53,23 @@ def delete_user(user_id, ref):
 
 # Inicialize o SDK Firebase apenas uma vez
 if not firebase_admin._apps:
-    if firebase_credentials_path and os.path.exists(firebase_credentials_path):
-        try:
-            cred = credentials.Certificate(firebase_credentials_path)
-            firebase_admin.initialize_app(cred)
-            st.write("Firebase initialized successfully.")
-        except Exception as e:
-            st.error(f"Failed to initialize Firebase: {e}")
-    else:
-        st.error("Firebase credentials file not found. Please check the FIREBASE_CREDENTIALS_PATH environment variable.")
+    try:
+        cred = credentials.Certificate({
+            "type": firebase_type,
+            "project_id": firebase_project_id,
+            "private_key_id": firebase_private_key_id,
+            "private_key": firebase_private_key,
+            "client_email": firebase_client_email,
+            "client_id": firebase_client_id,
+            "auth_uri": firebase_auth_uri,
+            "token_uri": firebase_token_uri,
+            "auth_provider_x509_cert_url": firebase_auth_provider_x509_cert_url,
+            "client_x509_cert_url": firebase_client_x509_cert_url
+        })
+        firebase_admin.initialize_app(cred)
+        st.write("Firebase initialized successfully.")
+    except Exception as e:
+        st.error(f"Failed to initialize Firebase: {e}")
 
 # Referência para a coleção "users" no Firestore
 db = firestore.client()

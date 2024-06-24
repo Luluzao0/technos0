@@ -172,7 +172,7 @@ else:
             df = pd.read_excel(uploaded_file)
             for index, row in df.iterrows():
                 if is_valid_email(row['email']) and not is_phone_number_exists(row['number'], ref):
-                    add_userdata(row['name'], row['email'], row['number'], row['problema'], row['cod_matricula'], ref)
+                    add_userdata(row['name'], row['email'], row['number'], row['problema'], row['curso/setor'], ref)
             st.success("Dados inseridos no banco de dados com sucesso.")
         except Exception as e:
             st.error(f"Erro ao processar o arquivo: {str(e)}")
